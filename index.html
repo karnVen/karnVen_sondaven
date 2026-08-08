@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Son Daven Replica</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <!-- 1. THE PRELOADER -->
+    <div id="preloader" class="preloader">
+      <div class="preloader-content">
+        <div class="preloader-top">
+          <!-- We can put an SVG logo here later -->
+          <div class="logo-placeholder">SON DAVEN</div>
+          <p class="preloader-subtitle">інвестиційний проєкт</p>
+        </div>
+        
+        <div class="preloader-bottom">
+          <p class="preloader-loading-text">завантаження сайту<br/>please wait</p>
+          <p class="preloader-loading-percent" id="loading-percent">0%</p>
+        </div>
+      </div>
+      
+      <!-- The background video that plays while loading -->
+      <div class="preloader-bg">
+        <video autoplay loop muted playsinline class="preloader-video">
+          <source src="assets/preloader_lion.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+
+    <!-- 2. MAIN CONTENT (Hidden until preloader finishes) -->
+    <div id="app" class="main-content">
+      <h1>Welcome to Son Daven Replica</h1>
+      <p>This content appears after the preloader finishes its animation.</p>
+    </div>
+
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

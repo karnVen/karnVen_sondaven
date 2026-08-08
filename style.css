@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap');
+
+:root {
+  /* Son Daven Animation Tokens */
+  --dur-s: 0.4s;
+  --dur-m: 0.6s;
+  --dur-l: 1.2s;
+
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in: cubic-bezier(0.5, 0, 0.75, 0);
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-write: cubic-bezier(0.333, 0, 0.667, 1);
+
+  /* Premium Dark Theme Colors */
+  --color-bg: #0a0a0a;
+  --color-surface: #141414;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: rgba(255, 255, 255, 0.6);
+  --color-accent: #c09d73; /* A premium gold/bronze accent common in luxury resorts */
+
+  /* Structural Units */
+  --unit-4: 0.25rem;
+  --unit-8: 0.5rem;
+  --unit-16: 1rem;
+  --unit-32: 2rem;
+  --unit-64: 4rem;
+}
+
+html {
+  /* Using 1vw for fluid typography scaling typical in Webflow/Awwwards sites */
+  font-size: 1vw; 
+  box-sizing: border-box;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: 'Outfit', sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Default Preloader Mask (Used heavily in Son Daven) */
+.premium-mask {
+  -webkit-mask-image: linear-gradient(180deg, #FFF 50%, rgba(255, 255, 255, 0.00) 100%);
+  mask-image: linear-gradient(180deg, #FFF 50%, rgba(255, 255, 255, 0.00) 100%);
+}
+
+/* ==========================================================================
+   PRELOADER
+   ========================================================================== */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.preloader-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1; /* Behind text */
+}
+
+.preloader-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures video fills screen without stretching */
+  opacity: 0.6; /* Slight dimming so text is readable */
+}
+
+.preloader-content {
+  position: relative;
+  z-index: 2; /* In front of video */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: var(--unit-32);
+}
+
+.preloader-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.logo-placeholder {
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  margin-bottom: var(--unit-8);
+}
+
+.preloader-subtitle {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-secondary);
+}
+
+.preloader-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.preloader-loading-text {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.preloader-loading-percent {
+  font-size: 3rem;
+  font-weight: 300;
+  margin: 0;
+}
+
+/* Hide main content initially to prevent flash of unstyled content */
+.main-content {
+  opacity: 0;
+  visibility: hidden;
+}
