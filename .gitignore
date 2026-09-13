@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Windows Zone.Identifier files
+*Zone.Identifier*
+*:Zone.Identifier
+
+# Temporary downloads
+downloads/

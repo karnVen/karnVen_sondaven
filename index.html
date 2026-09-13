@@ -3,37 +3,290 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Son Daven Replica</title>
+    <title>Son Daven — Resort Design Hotel in Yaremche (Replica)</title>
     <link rel="stylesheet" href="/style.css" />
   </head>
-  <body>
-    <!-- 1. THE PRELOADER -->
-    <div id="preloader" class="preloader">
-      <div class="preloader-content">
-        <div class="preloader-top">
-          <!-- We can put an SVG logo here later -->
-          <div class="logo-placeholder">SON DAVEN</div>
-          <p class="preloader-subtitle">інвестиційний проєкт</p>
-        </div>
-        
-        <div class="preloader-bottom">
-          <p class="preloader-loading-text">завантаження сайту<br/>please wait</p>
-          <p class="preloader-loading-percent" id="loading-percent">0%</p>
-        </div>
+  <body class="theme_on-dark">
+
+    <!-- ====================================================================
+         1. CINEMATIC PRELOADER
+         ==================================================================== -->
+    <div data-master-preloader class="master-preloader">
+      <div class="preloader-header">
+        <div data-preloader-logo class="preloader-logo">SON DAVEN</div>
+        <div data-preloader-sub class="p6 text-gray">Yaremche · Carpathians</div>
       </div>
-      
-      <!-- The background video that plays while loading -->
-      <div class="preloader-bg">
-        <video autoplay loop muted playsinline class="preloader-video">
-          <source src="assets/preloader_lion.mp4" type="video/mp4" />
-        </video>
+
+      <div class="preloader-footer">
+        <div data-preloader-sub class="p6 text-light">
+          Resort Design Hotel<br />
+          Investment Project
+        </div>
+        <div data-preloader-percent class="preloader-percent">0%</div>
       </div>
     </div>
 
-    <!-- 2. MAIN CONTENT (Hidden until preloader finishes) -->
-    <div id="app" class="main-content">
-      <h1>Welcome to Son Daven Replica</h1>
-      <p>This content appears after the preloader finishes its animation.</p>
+    <!-- ====================================================================
+         2. DIRECTIONAL STICKY HEADER
+         Marked with [theme] so its colors invert dynamically over light sections
+         ==================================================================== -->
+    <header class="header theme_on-dark" theme>
+      <div class="header_bg"></div>
+      <div class="container header_inner">
+        <a href="#hero" class="header_logo">SON DAVEN</a>
+
+        <nav class="header_nav">
+          <a href="#about" class="nav-link">About</a>
+          <a href="#location" class="nav-link">Location</a>
+          <a href="#benefits" class="nav-link">Benefits</a>
+          <a href="#apartments" class="nav-link">Apartments</a>
+          <a href="#cta" class="btn-primary">Invest</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ====================================================================
+         3. MAIN SCROLL CONTAINER (Controlled by Lenis + GSAP)
+         ==================================================================== -->
+    <main id="app">
+
+      <!-- SECTION 1: HERO (Dark Background) -->
+      <section id="hero" bg="dark" class="section bg-dark">
+        <div class="container">
+          <div class="u-72"></div>
+          <div class="p6 text-accent" data-scroll-reveal="p">
+            A New Center of Gravity in the Carpathians
+          </div>
+          <div class="u-24"></div>
+          <h1 class="h1 text-light" data-scroll-reveal="h">
+            Resort Design Hotel in Yaremche
+          </h1>
+          <div class="u-32"></div>
+          <div class="divider" data-scroll-reveal="line"></div>
+          <div class="u-32"></div>
+          <p class="p4 text-light" data-scroll-reveal="p" style="max-width: 60rem;">
+            Son Daven reimagines Carpathian heritage through architecture, space, hospitality, and contemporary art. Guaranteed returns paired with high investment capitalization.
+          </p>
+
+          <div class="u-72"></div>
+
+          <div class="u-48"></div>
+        </div>
+
+        <!-- Pinned 3D Hero Canvas Track -->
+        <div class="hero-canvas-wrapper" id="hero-canvas-track">
+          <canvas id="hero-canvas" class="hero-canvas"></canvas>
+          <div class="hero-canvas-overlay">
+            <div class="p6 text-accent hero-frame-counter">
+              3D PERSPECTIVE · <span id="hero-frame-num">000</span> / 119
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: ABOUT / PHILOSOPHY (Light Sand Background - Inverts Theme!) -->
+      <section id="about" bg="light" class="section bg-light">
+        <div class="container">
+          <div class="p6 text-accent" data-scroll-reveal="p">
+            Philosophy & Architecture
+          </div>
+          <div class="u-24"></div>
+          <h2 class="h2 text-dark" data-scroll-reveal="h">
+            True relaxation is not a place, but a state of mind.
+          </h2>
+          <div class="u-32"></div>
+          <div class="divider" data-scroll-reveal="line"></div>
+          <div class="u-32"></div>
+          <p class="p3 text-dark" data-scroll-reveal="p" style="max-width: 55rem;">
+            Inspired by the monumental cliffs of the Carpathians and traditional timber craft. Expansive panoramic glazing dissolves the boundary between warm, tactile interiors and the primeval forest of Yaremche.
+          </p>
+          <div class="u-48"></div>
+
+          <!-- WebGL Dither & Cross-Stitch Shader Scene (Milestone 3) -->
+          <div class="webgl-scene-wrapper" style="position: relative; width: 100%; height: 50vh; border-radius: var(--u-16); overflow: hidden; background: #231f1c; border: 1px solid var(--color-border-dark);">
+            <canvas id="dither-canvas" style="width: 100%; height: 100%; display: block;"></canvas>
+            <div style="position: absolute; bottom: var(--u-16); right: var(--u-24); background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); padding: var(--u-8) var(--u-16); border-radius: var(--u-16); pointer-events: none;">
+              <span class="p6 text-accent">WebGL Cross-Stitch GLSL Shader</span>
+            </div>
+          </div>
+
+          <div class="u-104"></div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: BENEFITS & FINANCIALS (Warm Dark Background) -->
+      <section id="benefits" bg="color" class="section bg-color">
+        <div class="container">
+          <div class="p6 text-accent" data-scroll-reveal="p">
+            Investment Appeal
+          </div>
+          <div class="u-24"></div>
+          <h2 class="h2 text-light" data-scroll-reveal="h">
+            Projected returns of up to 14% annually
+          </h2>
+          <div class="u-32"></div>
+          <div class="divider" data-scroll-reveal="line"></div>
+          <div class="u-32"></div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--u-32);">
+            <div>
+              <h3 class="h3 text-accent" data-scroll-reveal="h">18%</h3>
+              <div class="u-16"></div>
+              <p class="p4 text-light" data-scroll-reveal="p">Annual growth in market capitalization across the Yaremche resort region.</p>
+            </div>
+            <div>
+              <h3 class="h3 text-accent" data-scroll-reveal="h">237</h3>
+              <div class="u-16"></div>
+              <p class="p4 text-light" data-scroll-reveal="p">Conservative projected occupancy days per year for stable passive yield.</p>
+            </div>
+            <div>
+              <h3 class="h3 text-accent" data-scroll-reveal="h">30</h3>
+              <div class="u-16"></div>
+              <p class="p4 text-light" data-scroll-reveal="p">Days of complimentary personal stay for investors each calendar year.</p>
+            </div>
+          </div>
+          <div class="u-104"></div>
+        </div>
+      </section>
+
+      <!-- SECTION: SEASONS (Interactive Curved SVG Slider) -->
+      <section id="seasons" bg="dark" class="section bg-dark">
+        <div class="container">
+          <div class="p6 text-accent a-center" data-scroll-reveal="p">
+            Four Seasons of Allure
+          </div>
+          <div class="u-24"></div>
+          <h2 class="h2 text-light a-center" data-scroll-reveal="h">
+            Year-Round Carpathian Magnetism
+          </h2>
+          <div class="u-32"></div>
+
+          <!-- Mathematical Curved SVG Path Slider -->
+          <div class="season-slider-wrapper" style="display: flex; flex-direction: column; align-items: center; margin: var(--u-32) 0;">
+            <div style="display: flex; gap: var(--u-48); align-items: center; margin-bottom: var(--u-16);">
+              <button data-start class="btn-season is-active" style="background: none; border: none; font-family: inherit; cursor: pointer; color: inherit;">
+                <span class="p6 text-accent">SUMMER / VERDANT</span>
+              </button>
+              <button data-end class="btn-season" style="background: none; border: none; font-family: inherit; cursor: pointer; color: inherit;">
+                <span class="p6 text-gray">WINTER / ALPINE</span>
+              </button>
+            </div>
+
+            <svg data-line-animation viewBox="0 0 300 100" style="width: 280px; height: 80px; overflow: visible;">
+              <path data-path d="M 20 60 Q 150 15 280 60" fill="none" stroke="rgba(168, 148, 116, 0.3)" stroke-width="2" stroke-dasharray="5 5" />
+              <circle data-active cx="20" cy="60" r="10" fill="#a89474" stroke="#2c2824" stroke-width="2" style="cursor: grab;" />
+            </svg>
+          </div>
+
+          <!-- Seasonal Content Cross-Fade Containers -->
+          <div id="season-content" style="position: relative; min-height: 240px; margin-top: var(--u-32);">
+            <div id="season-summer" style="display: block; transition: opacity 0.6s ease;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--u-32);">
+                <div style="background: rgba(255,255,255,0.03); padding: var(--u-32); border-radius: var(--u-16); border: 1px solid var(--color-border-light);">
+                  <div class="p6 text-accent">01 / ECOLOGY</div>
+                  <div class="u-16"></div>
+                  <h4 class="h5 text-light">Primeval Pine Trails</h4>
+                  <div class="u-16"></div>
+                  <p class="p5 text-gray">Mountain biking, therapeutic forest bathing, and direct trailheads into Carpathian National Nature Park.</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.03); padding: var(--u-32); border-radius: var(--u-16); border: 1px solid var(--color-border-light);">
+                  <div class="p6 text-accent">02 / WELLNESS</div>
+                  <div class="u-16"></div>
+                  <h4 class="h5 text-light">Rooftop Infinity Lagoon</h4>
+                  <div class="u-16"></div>
+                  <p class="p5 text-gray">Heated panoramic open-air water sanctuary overlooking the rocky banks of the Prut River.</p>
+                </div>
+              </div>
+            </div>
+
+            <div id="season-winter" style="display: none; opacity: 0; transition: opacity 0.6s ease;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--u-32);">
+                <div style="background: rgba(255,255,255,0.03); padding: var(--u-32); border-radius: var(--u-16); border: 1px solid var(--color-border-light);">
+                  <div class="p6 text-accent">01 / SKI RESORT</div>
+                  <div class="u-16"></div>
+                  <h4 class="h5 text-light">Bukovel Alpine Shuttle</h4>
+                  <div class="u-16"></div>
+                  <p class="p5 text-gray">Convenient 25-minute VIP shuttle service directly to Eastern Europe's premier winter ski destination.</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.03); padding: var(--u-32); border-radius: var(--u-16); border: 1px solid var(--color-border-light);">
+                  <div class="p6 text-accent">02 / GASTRONOMY</div>
+                  <div class="u-16"></div>
+                  <h4 class="h5 text-light">Fireside Carpathian Tavern</h4>
+                  <div class="u-16"></div>
+                  <p class="p5 text-gray">Author's cuisine reimagining traditional Hutsul recipes, open fireplaces, and curated natural wines.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="u-104"></div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: LOCATION (Interactive Proximity Map) -->
+      <section id="location" bg="dark" class="section bg-dark">
+        <div class="container">
+          <div class="p6 text-accent" data-scroll-reveal="p">Prime Location</div>
+          <div class="u-24"></div>
+          <h2 class="h2 text-light" data-scroll-reveal="h">
+            The Epicenter of Carpathian Tourism
+          </h2>
+          <div class="u-32"></div>
+          <div class="divider" data-scroll-reveal="line"></div>
+          <div class="u-32"></div>
+
+          <!-- Interactive Location Map with Proximity Magnetic Pins -->
+          <div data-map style="position: relative; width: 100%; height: 60vh; background: #1f1b18; border-radius: var(--u-16); overflow: hidden; border: 1px solid var(--color-border-light); cursor: crosshair;">
+            <!-- Map Grid Lines -->
+            <div style="position: absolute; inset: 0; background-image: linear-gradient(rgba(168,148,116,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(168,148,116,0.08) 1px, transparent 1px); background-size: 60px 60px;"></div>
+
+            <!-- Proximity Pins -->
+            <div data-pin style="position: absolute; top: 40%; left: 35%; display: flex; flex-direction: column; align-items: center; transform-origin: center; will-change: transform;">
+              <div style="width: 14px; height: 14px; border-radius: 50%; background: #a89474; box-shadow: 0 0 16px rgba(168,148,116,0.8); border: 2px solid #2c2824;"></div>
+              <div class="u-8"></div>
+              <div style="background: rgba(44,40,36,0.8); backdrop-filter: blur(6px); padding: var(--u-4) var(--u-8); border-radius: var(--u-8); border: 1px solid var(--color-border-light); white-space: nowrap;">
+                <span class="p6 text-light">SON DAVEN HOTEL</span>
+              </div>
+            </div>
+
+            <div data-pin style="position: absolute; top: 25%; left: 70%; display: flex; flex-direction: column; align-items: center; transform-origin: center; will-change: transform;">
+              <div style="width: 10px; height: 10px; border-radius: 50%; background: #ffffff; opacity: 0.8; border: 1px solid #2c2824;"></div>
+              <div class="u-8"></div>
+              <div style="background: rgba(44,40,36,0.7); backdrop-filter: blur(6px); padding: var(--u-4) var(--u-8); border-radius: var(--u-8); white-space: nowrap;">
+                <span class="p6 text-gray">BUKOVEL SKI RESORT · 25 MIN</span>
+              </div>
+            </div>
+
+            <div data-pin style="position: absolute; top: 70%; left: 55%; display: flex; flex-direction: column; align-items: center; transform-origin: center; will-change: transform;">
+              <div style="width: 10px; height: 10px; border-radius: 50%; background: #ffffff; opacity: 0.8; border: 1px solid #2c2824;"></div>
+              <div class="u-8"></div>
+              <div style="background: rgba(44,40,36,0.7); backdrop-filter: blur(6px); padding: var(--u-4) var(--u-8); border-radius: var(--u-8); white-space: nowrap;">
+                <span class="p6 text-gray">PROBIY WATERFALL · 5 MIN</span>
+              </div>
+            </div>
+
+            <div style="position: absolute; bottom: var(--u-16); left: var(--u-24); pointer-events: none;">
+              <span class="p6 text-gray">HOVER TO ENGAGE PROXIMITY MAGNETICS</span>
+            </div>
+          </div>
+
+          <div class="u-104"></div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ====================================================================
+         4. PERSISTENT FLOATING SOUND CONTROLLER WIDGET
+         Marked with [theme] to verify dynamic real-time color inversion
+         ==================================================================== -->
+    <div data-sound-toggle class="sound-toggle theme_on-dark" theme>
+      <div class="sound-bars">
+        <div class="sound-bar"></div>
+        <div class="sound-bar"></div>
+        <div class="sound-bar"></div>
+        <div class="sound-bar"></div>
+      </div>
+      <span class="p6">Sound</span>
     </div>
 
     <script type="module" src="/main.js"></script>
