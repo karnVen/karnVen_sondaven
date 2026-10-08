@@ -31,6 +31,8 @@ import { WebGLDitherScene } from './src/core/webglEffect.js';
 import { SeasonSlider } from './src/components/seasonSlider.js';
 import { initMapProximity } from './src/components/mapProximity.js';
 import { AmbientAudioPlayer } from './src/components/audioPlayer.js';
+import { initAllSceneCanvases } from './src/components/sceneCanvas.js';
+import { initBenefitsSlider } from './src/components/benefitsSlider.js';
 import { animateTextH, animateTextP, animateLine } from './src/animations/textReveal.js';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -72,22 +74,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Step 5: Initialize WebGL Dither & Cross-Stitch Shader Scene
+  // Step 5: Initialize all 15 multi-plane video canvas scenes (Level 2)
+  initAllSceneCanvases();
+
+  // Step 6: Initialize Infrastructure & Benefits Swiper Carousel (Level 2)
+  initBenefitsSlider();
+
+  // Step 7: Initialize WebGL Dither & Cross-Stitch Shader Scene
   initDitherScene();
 
-  // Step 6: Initialize Curved SVG Season Slider (Milestone 4)
+  // Step 8: Initialize Curved SVG Season Slider (Milestone 4)
   initSeasonSwitcher();
 
-  // Step 7: Initialize Proximity Map Pins (Milestone 4)
+  // Step 9: Initialize Proximity Map Pins (Milestone 4)
   initMapProximity('[data-map]', '[data-pin]');
 
-  // Step 8: Initialize Ambient Audio Player (Milestone 4)
+  // Step 10: Initialize Ambient Audio Player (Milestone 4)
   new AmbientAudioPlayer({ toggle: '[data-sound-toggle]' });
 
-  // Step 9: Bind ScrollTrigger-based reveal animations
+  // Step 11: Bind ScrollTrigger-based reveal animations
   initScrollReveals();
 
-  // Step 10: Start preloader lifecycle
+  // Step 12: Start preloader lifecycle
   initPreloader(() => {
     console.log("%c[Preloader]%c Completed. Page active.", "color: #a89474; font-weight: bold;", "color: inherit;");
     ScrollTrigger.refresh();

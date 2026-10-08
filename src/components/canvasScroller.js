@@ -58,7 +58,8 @@ export class HeroCanvasScroller {
     const hour = (new Date()).getHours();
     this.isDayTime = hour >= 7 && hour < 24;
 
-    // Remote CDN Base (with local fallback support)
+    // Local assets path with CDN fallback
+    this.localBase = this.isDayTime ? '/assets/hero-video' : '/assets/hero-video-dark';
     this.cdnBase = this.isDayTime
       ? 'https://assets.sondaven.com/hero-video'
       : 'https://assets.sondaven.com/hero-video-dark';
@@ -97,7 +98,7 @@ export class HeroCanvasScroller {
   }
 
   /**
-   * Concurrently load all 120 frames with progress reporting
+   * Concurrently load all 120 frames with progress reporting and fallback
    */
   preloadFrames() {
     let loadedCount = 0;
@@ -106,26 +107,27 @@ export class HeroCanvasScroller {
       return new Promise((resolve) => {
         const frameIndex = String(i).padStart(3, '0');
         const img = new Image();
-        img.src = `${this.cdnBase}/${frameIndex}.webp`;
 
-        img.onload = () => {
-          this.frames[i] = img;
+        const onFinalDone = (imageObj) => {
+          this.frames[i] = imageObj;
           loadedCount++;
           if (this.onProgress) {
             this.onProgress(loadedCount, this.totalFrames);
           }
-          resolve(img);
+          resolve(imageObj);
         };
 
+        img.onload = () => onFinalDone(img);
+
+        // If local file fails, fall back to remote CDN
         img.onerror = () => {
-          // Fallback: create empty placeholder so sequence doesn't crash
-          this.frames[i] = null;
-          loadedCount++;
-          if (this.onProgress) {
-            this.onProgress(loadedCount, this.totalFrames);
-          }
-          resolve(null);
+          const fallbackImg = new Image();
+          fallbackImg.onload = () => onFinalDone(fallbackImg);
+          fallbackImg.onerror = () => onFinalDone(null);
+          fallbackImg.src = `${this.cdnBase}/${frameIndex}.webp`;
         };
+
+        img.src = `${this.localBase}/${frameIndex}.webp`;
       });
     });
 

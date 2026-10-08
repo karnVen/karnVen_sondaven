@@ -25,7 +25,7 @@ export class AmbientAudioPlayer {
    * @param {number} [options.maxVolume=0.3] - Target volume level
    */
   constructor(options = {}) {
-    this.src = options.src || 'https://assets.sondaven.com/carpathian-whispers-hutsul-ambient.mp3';
+    this.src = options.src || '/assets/carpathian-whispers-hutsul-ambient.mp3';
     this.toggleEl = typeof options.toggle === 'string' ? document.querySelector(options.toggle) : options.toggle;
     this.maxVolume = options.maxVolume || 0.3;
 
