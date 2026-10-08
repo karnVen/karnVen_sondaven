@@ -35,6 +35,7 @@ import { initAllSceneCanvases } from './src/components/sceneCanvas.js';
 import { initBenefitsSlider } from './src/components/benefitsSlider.js';
 import { initApartmentTabs } from './src/components/apartmentsTabs.js';
 import { initAccordion, initModals } from './src/components/modalsAndAccordion.js';
+import { initPageTransitions } from './src/core/pageTransitions.js';
 import { animateTextH, animateTextP, animateLine } from './src/animations/textReveal.js';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -89,23 +90,26 @@ document.addEventListener('DOMContentLoaded', () => {
   initAccordion();
   initModals();
 
-  // Step 9: Initialize WebGL Dither & Cross-Stitch Shader Scene
+  // Step 9: Initialize Barba.js PJAX Transitions (Level 5)
+  initPageTransitions();
+
+  // Step 10: Initialize WebGL Dither & Cross-Stitch Shader Scene
   initDitherScene();
 
-  // Step 10: Initialize Curved SVG Season Slider (Milestone 4)
+  // Step 11: Initialize Curved SVG Season Slider (Milestone 4)
   initSeasonSwitcher();
 
-  // Step 11: Initialize Proximity Map Pins & Magnetic Elements (Level 4)
+  // Step 12: Initialize Proximity Map Pins & Magnetic Elements (Level 4)
   initMapPins();
   initMagneticEffect();
 
-  // Step 12: Initialize Ambient Audio Player (Milestone 4)
+  // Step 13: Initialize Ambient Audio Player (Milestone 4)
   new AmbientAudioPlayer({ toggle: '[data-sound-toggle]' });
 
-  // Step 13: Bind ScrollTrigger-based reveal animations
+  // Step 14: Bind ScrollTrigger-based reveal animations
   initScrollReveals();
 
-  // Step 14: Start preloader lifecycle
+  // Step 15: Start preloader lifecycle
   initPreloader(() => {
     console.log("%c[Preloader]%c Completed. Page active.", "color: #a89474; font-weight: bold;", "color: inherit;");
     ScrollTrigger.refresh();
