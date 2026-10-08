@@ -33,6 +33,8 @@ import { initMapProximity } from './src/components/mapProximity.js';
 import { AmbientAudioPlayer } from './src/components/audioPlayer.js';
 import { initAllSceneCanvases } from './src/components/sceneCanvas.js';
 import { initBenefitsSlider } from './src/components/benefitsSlider.js';
+import { initApartmentTabs } from './src/components/apartmentsTabs.js';
+import { initAccordion, initModals } from './src/components/modalsAndAccordion.js';
 import { animateTextH, animateTextP, animateLine } from './src/animations/textReveal.js';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -80,22 +82,29 @@ document.addEventListener('DOMContentLoaded', () => {
   // Step 6: Initialize Infrastructure & Benefits Swiper Carousel (Level 2)
   initBenefitsSlider();
 
-  // Step 7: Initialize WebGL Dither & Cross-Stitch Shader Scene
+  // Step 7: Initialize Apartment Catalog & Rotational Tab Shuffle (Level 3)
+  initApartmentTabs();
+
+  // Step 8: Initialize FAQ Accordion & Modals (Level 3 & 5)
+  initAccordion();
+  initModals();
+
+  // Step 9: Initialize WebGL Dither & Cross-Stitch Shader Scene
   initDitherScene();
 
-  // Step 8: Initialize Curved SVG Season Slider (Milestone 4)
+  // Step 10: Initialize Curved SVG Season Slider (Milestone 4)
   initSeasonSwitcher();
 
-  // Step 9: Initialize Proximity Map Pins (Milestone 4)
+  // Step 11: Initialize Proximity Map Pins (Milestone 4)
   initMapProximity('[data-map]', '[data-pin]');
 
-  // Step 10: Initialize Ambient Audio Player (Milestone 4)
+  // Step 12: Initialize Ambient Audio Player (Milestone 4)
   new AmbientAudioPlayer({ toggle: '[data-sound-toggle]' });
 
-  // Step 11: Bind ScrollTrigger-based reveal animations
+  // Step 13: Bind ScrollTrigger-based reveal animations
   initScrollReveals();
 
-  // Step 12: Start preloader lifecycle
+  // Step 14: Start preloader lifecycle
   initPreloader(() => {
     console.log("%c[Preloader]%c Completed. Page active.", "color: #a89474; font-weight: bold;", "color: inherit;");
     ScrollTrigger.refresh();
