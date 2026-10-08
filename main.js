@@ -29,7 +29,7 @@ import { initHeader } from './src/components/header.js';
 import { HeroCanvasScroller } from './src/components/canvasScroller.js';
 import { WebGLDitherScene } from './src/core/webglEffect.js';
 import { SeasonSlider } from './src/components/seasonSlider.js';
-import { initMapProximity } from './src/components/mapProximity.js';
+import { initMapPins, initMagneticEffect } from './src/components/mapProximity.js';
 import { AmbientAudioPlayer } from './src/components/audioPlayer.js';
 import { initAllSceneCanvases } from './src/components/sceneCanvas.js';
 import { initBenefitsSlider } from './src/components/benefitsSlider.js';
@@ -95,8 +95,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Step 10: Initialize Curved SVG Season Slider (Milestone 4)
   initSeasonSwitcher();
 
-  // Step 11: Initialize Proximity Map Pins (Milestone 4)
-  initMapProximity('[data-map]', '[data-pin]');
+  // Step 11: Initialize Proximity Map Pins & Magnetic Elements (Level 4)
+  initMapPins();
+  initMagneticEffect();
 
   // Step 12: Initialize Ambient Audio Player (Milestone 4)
   new AmbientAudioPlayer({ toggle: '[data-sound-toggle]' });
@@ -123,7 +124,7 @@ function initDitherScene() {
     layers: [
       {
         type: 'video',
-        src: 'https://assets.sondaven.com/scenes/hero_tree-c.mp4',
+        src: '/assets/scenes/hero_tree-c.mp4',
         config: {
           x: 0.15,
           y: 0.05,
