@@ -9,11 +9,12 @@
  *    High-end agency websites provide an elaborate storytelling intro for first-time
  *    visitors, but should NOT frustrate returning users or users navigating sub-pages.
  *    Using `sessionStorage.getItem('hasVisited')`, we run the full cinematic intro
- *    on initial visit, and a quick 0.4s fade-out for subsequent page loads.
+ *    on initial visit, and an instant dismiss for subsequent page loads.
  * 
- * 2. COUNTER & TIMELINE SYNC:
- *    The counter smoothly tweens from 0% to 100%, synchronized with font loading
- *    and asset preparation promises.
+ * 2. SAFE SELECTOR MATCHING & TIMEOUT FALLBACK:
+ *    Matches both Webflow DOM attributes (`[data-preloader]`, `[data-preloader="logo"]`,
+ *    `[data-preloader-percent]`, `[data-preloader="p"]`) and standard fallback hooks.
+ *    Guarantees page unlock after a maximum timeout so the user is never blocked.
  * ============================================================================
  */
 
@@ -54,12 +55,16 @@ export function initPreloader(onCompleteCallback, assetPromise = null) {
  * Full Cinematic Preloader for first-time visitors
  */
 function animatePreloaderIntro(onCompleteCallback, assetPromise = null) {
-  const preloader = document.querySelector('[data-master-preloader]');
+  const masterPreloader = document.querySelector('[data-master-preloader]');
+  if (masterPreloader) masterPreloader.remove();
+
+  const preloader = document.querySelector('[data-preloader]') || document.querySelector('.master-preloader');
   const percentEl = document.querySelector('[data-preloader-percent]');
-  const logoEl = document.querySelector('[data-preloader-logo]');
-  const sublines = document.querySelectorAll('[data-preloader-sub]');
+  const logoEl = document.querySelector('[data-preloader="logo"]') || document.querySelector('.preloader_logo');
+  const sublines = document.querySelectorAll('[data-preloader="p"]');
 
   if (!preloader) {
+    unlockScroll();
     if (onCompleteCallback) onCompleteCallback();
     return;
   }
@@ -81,72 +86,87 @@ function animatePreloaderIntro(onCompleteCallback, assetPromise = null) {
     });
   };
 
+  let isDismissed = false;
+  const dismiss = () => {
+    if (isDismissed) return;
+    isDismissed = true;
+    unlockScroll();
+
+    gsap.to(preloader, {
+      yPercent: -100,
+      duration: 0.9,
+      ease: 'power3.inOut',
+      onComplete: () => {
+        preloader.style.display = 'none';
+        if (onCompleteCallback) onCompleteCallback();
+      }
+    });
+  };
+
   const tl = gsap.timeline({
     paused: true,
-    onComplete: () => {
-      unlockScroll();
-      gsap.to(preloader, {
-        yPercent: -100,
-        duration: 1.0,
-        ease: 'power3.inOut',
-        onComplete: () => {
-          preloader.remove();
-          if (onCompleteCallback) onCompleteCallback();
-        }
-      });
+    onComplete: dismiss
+  });
+
+  // 1. Initial elements reveal if present
+  if (logoEl) {
+    tl.fromTo(logoEl, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
+  }
+  if (sublines.length) {
+    tl.fromTo(sublines, { opacity: 0 }, { opacity: 1, duration: 0.5, stagger: 0.08, ease: 'power2.out' }, '-=0.3');
+  }
+
+  // 2. Count minimum duration
+  tl.to(progress, {
+    value: 100,
+    duration: 1.6,
+    ease: 'power2.inOut',
+    onUpdate: () => {
+      if (percentEl) {
+        percentEl.textContent = `${Math.round(progress.value)}%`;
+      }
     }
   });
 
-  // 1. Initial elements reveal
-  tl.fromTo(logoEl, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' })
-    .fromTo(sublines, { opacity: 0 }, { opacity: 1, duration: 0.6, stagger: 0.1, ease: 'power2.out' }, '-=0.4')
-    // 2. Count minimum duration
-    .to(progress, {
-      value: 100,
-      duration: 1.8,
-      ease: 'power2.inOut',
-      onUpdate: () => {
-        if (percentEl) {
-          percentEl.textContent = `${Math.round(progress.value)}%`;
-        }
-      }
-    })
-    // 3. Stagger elements out
-    .to([logoEl, sublines, percentEl], {
+  // 3. Stagger elements out before sliding
+  const exitElements = [logoEl, percentEl, ...sublines].filter(Boolean);
+  if (exitElements.length) {
+    tl.to(exitElements, {
       opacity: 0,
-      y: -20,
-      duration: 0.5,
-      stagger: 0.05,
+      y: -15,
+      duration: 0.4,
+      stagger: 0.04,
       ease: 'power2.in'
-    }, '+=0.2');
+    }, '+=0.1');
+  }
 
-  // Start intro
   tl.play();
 
-  // If waiting on assets, resolve with promise
-  if (assetPromise) {
-    Promise.all([assetPromise, document.fonts.ready]).then(() => {
-      // Progress complete
-    });
-  }
+  // Safety fallback: if anything stalls, force dismiss after 3 seconds
+  setTimeout(dismiss, 3000);
 }
 
 /**
  * Fast reveal for returning visitors
  */
 function animatePreloaderShort(onCompleteCallback) {
-  const preloader = document.querySelector('[data-master-preloader]');
+  const masterPreloader = document.querySelector('[data-master-preloader]');
+  if (masterPreloader) masterPreloader.remove();
+
+  const preloader = document.querySelector('[data-preloader]') || document.querySelector('.master-preloader');
   if (!preloader) {
+    unlockScroll();
     if (onCompleteCallback) onCompleteCallback();
     return;
   }
 
   gsap.to(preloader, {
     opacity: 0,
-    duration: 0.5,
+    duration: 0.35,
     ease: 'power2.out',
     onComplete: () => {
-      preloader.remove();
+      preloader.style.display = 'none';
+      unlockScroll();
       if (onCompleteCallback) onCompleteCallback();
     }
   });
