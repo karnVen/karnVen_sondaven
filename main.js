@@ -59,8 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Step 4: Initialize 120-Frame 3D Hero Canvas Scroller
   const frameCounterEl = document.getElementById('hero-frame-num');
   const heroScroller = new HeroCanvasScroller({
-    canvas: '#hero-canvas',
-    container: '#hero-canvas-track',
+    canvas: '[data-scroll-video]',
+    container: '[data-scroll-video-container]',
     totalFrames: 120,
     onProgress: (loaded, total) => {
       const percent = Math.round((loaded / total) * 100);
